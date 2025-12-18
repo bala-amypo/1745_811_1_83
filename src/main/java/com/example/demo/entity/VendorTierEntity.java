@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class VendorTierEntity {
     Long id;
     String tierName;
@@ -8,15 +11,14 @@ public class VendorTierEntity {
     Boolean active;
 
 }
-public VendorTierEntity(Long id,String tierName,Double minScoreThreshold,String description,Boolean active){
+public VendorTierEntity (Long id,String tierName,Double minScoreThreshold,String description,Boolean active){
     this.id=id;
     this.tierName=tierName;
     this.minScoreThreshold=minScoreThreshold;
     this.description=description;
     this.active=active;
 }
-public VendorTierEntity(){
-
+public  VendorTierEntity() {
 }
 public Long getId() {
     return id;
