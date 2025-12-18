@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-public class UserEntity {
+public class VendorTierEntity {
     Long id;
     String tierName;
     Double minScoreThreshold;
@@ -8,14 +8,14 @@ public class UserEntity {
     Boolean active;
 
 }
-public UserEntity(Long id,String tierName,Double minScoreThreshold,String description,Boolean active){
+public VendorTierEntity(Long id,String tierName,Double minScoreThreshold,String description,Boolean active){
     this.id=id;
     this.tierName=tierName;
     this.minScoreThreshold=minScoreThreshold;
     this.description=description;
     this.active=active;
 }
-public UserEntity(){
+public VendorTierEntity(){
 
 }
 public Long getId() {
