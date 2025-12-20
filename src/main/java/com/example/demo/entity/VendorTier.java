@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "vendor_tiers")
@@ -11,20 +10,11 @@ public class VendorTier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String tierName;
+    private Integer minScore;
+    private Integer maxScore;
 
-    @Column(nullable = false)
-    private Integer minScoreThreshold;
-
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    public VendorTier() {
-    }
+    public VendorTier() {}
 
     public Long getId() {
         return id;
@@ -42,23 +32,19 @@ public class VendorTier {
         this.tierName = tierName;
     }
 
-    public Integer getMinScoreThreshold() {
-        return minScoreThreshold;
+    public Integer getMinScore() {
+        return minScore;
     }
 
-    public void setMinScoreThreshold(Integer minScoreThreshold) {
-        this.minScoreThreshold = minScoreThreshold;
+    public void setMinScore(Integer minScore) {
+        this.minScore = minScore;
     }
 
-    public Boolean getActive() {
-        return active;
+    public Integer getMaxScore() {
+        return maxScore;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public void setMaxScore(Integer maxScore) {
+        this.maxScore = maxScore;
     }
 }
