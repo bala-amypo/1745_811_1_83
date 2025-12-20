@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.DeliveryEvaluation;
+import com.example.demo.entity.DeliveryEvaluation;
 
 import java.util.List;
 

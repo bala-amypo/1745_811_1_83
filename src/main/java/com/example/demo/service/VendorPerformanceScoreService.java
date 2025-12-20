@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.VendorPerformanceScore;
+import com.example.demo.entity.VendorPerformanceScore;
 
 import java.util.List;
 

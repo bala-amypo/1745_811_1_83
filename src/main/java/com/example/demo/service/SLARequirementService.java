@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.SLARequirement;
+import com.example.demo.entity.SLARequirement;
 
 import java.util.List;
 
