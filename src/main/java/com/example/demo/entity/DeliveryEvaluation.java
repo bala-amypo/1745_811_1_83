@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "delivery_evaluations")
@@ -11,46 +12,43 @@ public class DeliveryEvaluation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
     @ManyToOne
-    @JoinColumn(name = "sla_id")
     private SLARequirement slaRequirement;
 
-    private Integer actualValue;
+    private Integer actualDeliveryDays;
+    private Double qualityScore;
+
+    private Boolean meetsDeliveryTarget;
+    private Boolean meetsQualityTarget;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date evaluationDate;
 
     public DeliveryEvaluation() {}
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Vendor getVendor() { return vendor; }
+    public void setVendor(Vendor vendor) { this.vendor = vendor; }
 
-    public Vendor getVendor() {
-        return vendor;
-    }
+    public SLARequirement getSlaRequirement() { return slaRequirement; }
+    public void setSlaRequirement(SLARequirement slaRequirement) { this.slaRequirement = slaRequirement; }
 
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
+    public Integer getActualDeliveryDays() { return actualDeliveryDays; }
+    public void setActualDeliveryDays(Integer actualDeliveryDays) { this.actualDeliveryDays = actualDeliveryDays; }
 
-    public SLARequirement getSlaRequirement() {
-        return slaRequirement;
-    }
+    public Double getQualityScore() { return qualityScore; }
+    public void setQualityScore(Double qualityScore) { this.qualityScore = qualityScore; }
 
-    public void setSlaRequirement(SLARequirement slaRequirement) {
-        this.slaRequirement = slaRequirement;
-    }
+    public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
+    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) { this.meetsDeliveryTarget = meetsDeliveryTarget; }
 
-    public Integer getActualValue() {
-        return actualValue;
-    }
+    public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
+    public void setMeetsQualityTarget(Boolean meetsQualityTarget) { this.meetsQualityTarget = meetsQualityTarget; }
 
-    public void setActualValue(Integer actualValue) {
-        this.actualValue = actualValue;
-    }
+    public Date getEvaluationDate() { return evaluationDate; }
+    public void setEvaluationDate(Date evaluationDate) { this.evaluationDate = evaluationDate; }
 }

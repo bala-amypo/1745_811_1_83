@@ -11,40 +11,24 @@ public class VendorTier {
     private Long id;
 
     private String tierName;
-    private Integer minScore;
-    private Integer maxScore;
+    private String description;
+    private Double minScoreThreshold;
+    private Boolean active = true;
 
     public VendorTier() {}
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getTierName() { return tierName; }
+    public void setTierName(String tierName) { this.tierName = tierName; }
 
-    public String getTierName() {
-        return tierName;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setTierName(String tierName) {
-        this.tierName = tierName;
-    }
+    public Double getMinScoreThreshold() { return minScoreThreshold; }
+    public void setMinScoreThreshold(Double minScoreThreshold) { this.minScoreThreshold = minScoreThreshold; }
 
-    public Integer getMinScore() {
-        return minScore;
-    }
-
-    public void setMinScore(Integer minScore) {
-        this.minScore = minScore;
-    }
-
-    public Integer getMaxScore() {
-        return maxScore;
-    }
-
-    public void setMaxScore(Integer maxScore) {
-        this.maxScore = maxScore;
-    }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

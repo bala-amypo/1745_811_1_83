@@ -10,32 +10,29 @@ public class SLARequirement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String metricName;
-    private Integer targetValue;
+    private String requirementName;
+    private String description;
+    private Integer maxDeliveryDays;
+    private Double minQualityScore;
+    private Boolean active = true;
 
     public SLARequirement() {}
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getRequirementName() { return requirementName; }
+    public void setRequirementName(String requirementName) { this.requirementName = requirementName; }
 
-    public String getMetricName() {
-        return metricName;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setMetricName(String metricName) {
-        this.metricName = metricName;
-    }
+    public Integer getMaxDeliveryDays() { return maxDeliveryDays; }
+    public void setMaxDeliveryDays(Integer maxDeliveryDays) { this.maxDeliveryDays = maxDeliveryDays; }
 
-    public Integer getTargetValue() {
-        return targetValue;
-    }
+    public Double getMinQualityScore() { return minQualityScore; }
+    public void setMinQualityScore(Double minQualityScore) { this.minQualityScore = minQualityScore; }
 
-    public void setTargetValue(Integer targetValue) {
-        this.targetValue = targetValue;
-    }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }
