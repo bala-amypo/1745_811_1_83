@@ -1,9 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "vendor_tiers", uniqueConstraints = @UniqueConstraint(columnNames = "tierName"))
+@Table(name = "vendor_tiers")
 public class VendorTier {
 
     @Id
@@ -13,25 +14,51 @@ public class VendorTier {
     @Column(nullable = false, unique = true)
     private String tierName;
 
-    private Double minScoreThreshold;
-
-    private String description;
+    @Column(nullable = false)
+    private Integer minScoreThreshold;
 
     @Column(nullable = false)
     private Boolean active = true;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @Column(nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    public String getTierName() { return tierName; }
-    public void setTierName(String tierName) { this.tierName = tierName; }
+    public VendorTier() {
+    }
 
-    public Double getMinScoreThreshold() { return minScoreThreshold; }
-    public void setMinScoreThreshold(Double minScoreThreshold) { this.minScoreThreshold; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public String getTierName() {
+        return tierName;
+    }
+
+    public void setTierName(String tierName) {
+        this.tierName = tierName;
+    }
+
+    public Integer getMinScoreThreshold() {
+        return minScoreThreshold;
+    }
+
+    public void setMinScoreThreshold(Integer minScoreThreshold) {
+        this.minScoreThreshold = minScoreThreshold;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }
