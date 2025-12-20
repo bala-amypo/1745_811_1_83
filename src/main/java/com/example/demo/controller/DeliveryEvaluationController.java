@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.DeliveryEvaluation;
+import com.example.demo.entity.DeliveryEvaluation;
 import com.example.demo.service.DeliveryEvaluationService;
 import org.springframework.web.bind.annotation.*;
 

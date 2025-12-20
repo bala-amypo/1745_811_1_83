@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.SLARequirement;
+import com.example.demo.entity.SLARequirement;
 import com.example.demo.service.SLARequirementService;
 import org.springframework.web.bind.annotation.*;
 
