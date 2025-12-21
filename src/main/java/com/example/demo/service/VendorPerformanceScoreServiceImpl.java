@@ -1,18 +1,21 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.entity.DeliveryEvaluation;
 import com.example.demo.entity.Vendor;
 import com.example.demo.entity.VendorPerformanceScore;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.DeliveryEvaluationRepository;
 import com.example.demo.repository.VendorPerformanceScoreRepository;
 import com.example.demo.repository.VendorRepository;
 import com.example.demo.repository.VendorTierRepository;
 import com.example.demo.service.VendorPerformanceScoreService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
+@Service
+public class VendorPerformanceScoreServiceImpl
+        implements VendorPerformanceScoreService {
 
     private final VendorPerformanceScoreRepository scoreRepository;
     private final DeliveryEvaluationRepository evaluationRepository;
@@ -36,11 +39,16 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
+        List<DeliveryEvaluation> evaluations =
+                evaluationRepository.findByVendorId(vendorId);
 
         long total = evaluations.size();
-        long onTime = evaluations.stream().filter(DeliveryEvaluation::getMeetsDeliveryTarget).count();
-        long quality = evaluations.stream().filter(DeliveryEvaluation::getMeetsQualityTarget).count();
+        long onTime = evaluations.stream()
+                .filter(DeliveryEvaluation::getMeetsDeliveryTarget)
+                .count();
+        long quality = evaluations.stream()
+                .filter(DeliveryEvaluation::getMeetsQualityTarget)
+                .count();
 
         double onTimePct = total == 0 ? 0 : (onTime * 100.0) / total;
         double qualityPct = total == 0 ? 0 : (quality * 100.0) / total;
