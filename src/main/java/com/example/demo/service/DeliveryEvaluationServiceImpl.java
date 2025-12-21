@@ -1,17 +1,19 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.entity.DeliveryEvaluation;
 import com.example.demo.entity.SLARequirement;
 import com.example.demo.entity.Vendor;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.DeliveryEvaluationRepository;
 import com.example.demo.repository.SLARequirementRepository;
 import com.example.demo.repository.VendorRepository;
 import com.example.demo.service.DeliveryEvaluationService;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService {
 
     private final DeliveryEvaluationRepository evaluationRepository;
@@ -41,7 +43,7 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
                 .orElseThrow(() -> new ResourceNotFoundException("SLA not found"));
 
         if (evaluation.getActualDeliveryDays() < 0) {
-            throw new IllegalArgumentException("actualDeliveryDays must be >= 0");
+            throw new IllegalArgumentException("Actual delivery days must be >= 0");
         }
 
         if (evaluation.getQualityScore() < 0 || evaluation.getQualityScore() > 100) {
