@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VendorPerformanceScoreServiceImpl
-        implements VendorPerformanceScoreService {
+public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
 
     private final VendorPerformanceScoreRepository scoreRepository;
     private final DeliveryEvaluationRepository evaluationRepository;
@@ -35,12 +34,10 @@ public class VendorPerformanceScoreServiceImpl
 
     @Override
     public VendorPerformanceScore calculateScore(Long vendorId) {
-
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations =
-                evaluationRepository.findByVendorId(vendorId);
+        List<DeliveryEvaluation> evaluations = evaluationRepository.findByVendorId(vendorId);
 
         long total = evaluations.size();
         long onTime = evaluations.stream()
@@ -52,7 +49,6 @@ public class VendorPerformanceScoreServiceImpl
 
         double onTimePct = total == 0 ? 0 : (onTime * 100.0) / total;
         double qualityPct = total == 0 ? 0 : (quality * 100.0) / total;
-
         double overall = (onTimePct + qualityPct) / 2;
 
         VendorPerformanceScore score = new VendorPerformanceScore();
@@ -66,7 +62,7 @@ public class VendorPerformanceScoreServiceImpl
 
     @Override
     public VendorPerformanceScore getLatestScore(Long vendorId) {
-        return scoreRepository.findByVendorOrderByCalculatedAtDesc(vendorId)
+        return scoreRepository.findByVendorIdOrderByCalculatedAtDesc(vendorId)
                 .stream()
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Score not found"));
@@ -74,6 +70,6 @@ public class VendorPerformanceScoreServiceImpl
 
     @Override
     public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
-        return scoreRepository.findByVendorOrderByCalculatedAtDesc(vendorId);
+        return scoreRepository.findByVendorIdOrderByCalculatedAtDesc(vendorId);
     }
 }
