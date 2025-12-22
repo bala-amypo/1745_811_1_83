@@ -14,7 +14,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
 
         Server server = new Server();
-        server.setUrl("https://9176.408procr.amypo.ai/"); 
+        server.setUrl("https://9061.408procr.amypo.ai/"); 
         server.setDescription("Preview Server");
 
         return new OpenAPI()
