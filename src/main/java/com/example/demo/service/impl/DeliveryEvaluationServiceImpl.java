@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.DeliveryEvaluation;
+import com.example.demo.entity.DeliveryEvaluation;
 import com.example.demo.model.SLARequirement;
 import com.example.demo.model.Vendor;
 import com.example.demo.exception.ResourceNotFoundException;
