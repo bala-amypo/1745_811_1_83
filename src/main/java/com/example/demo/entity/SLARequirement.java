@@ -3,20 +3,29 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "sla_requirements")
 public class SLARequirement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String requirementName;
+
     private String description;
     private Integer maxDeliveryDays;
     private Double minQualityScore;
     private Boolean active = true;
 
     public SLARequirement() {}
+
+    public SLARequirement(String name, String desc, Integer days, Double score) {
+        this.requirementName = name;
+        this.description = desc;
+        this.maxDeliveryDays = days;
+        this.minQualityScore = score;
+        this.active = true;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

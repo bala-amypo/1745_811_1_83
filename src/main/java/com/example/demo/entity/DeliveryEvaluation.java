@@ -1,10 +1,9 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "delivery_evaluations")
 public class DeliveryEvaluation {
 
     @Id
@@ -19,14 +18,20 @@ public class DeliveryEvaluation {
 
     private Integer actualDeliveryDays;
     private Double qualityScore;
+    private LocalDate evaluationDate;
 
     private Boolean meetsDeliveryTarget;
     private Boolean meetsQualityTarget;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date evaluationDate;
-
     public DeliveryEvaluation() {}
+
+    public DeliveryEvaluation(Vendor v, SLARequirement s, Integer d, Double q, LocalDate date) {
+        this.vendor = v;
+        this.slaRequirement = s;
+        this.actualDeliveryDays = d;
+        this.qualityScore = q;
+        this.evaluationDate = date;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -43,12 +48,12 @@ public class DeliveryEvaluation {
     public Double getQualityScore() { return qualityScore; }
     public void setQualityScore(Double qualityScore) { this.qualityScore = qualityScore; }
 
+    public LocalDate getEvaluationDate() { return evaluationDate; }
+    public void setEvaluationDate(LocalDate evaluationDate) { this.evaluationDate = evaluationDate; }
+
     public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
     public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) { this.meetsDeliveryTarget = meetsDeliveryTarget; }
 
     public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
     public void setMeetsQualityTarget(Boolean meetsQualityTarget) { this.meetsQualityTarget = meetsQualityTarget; }
-
-    public Date getEvaluationDate() { return evaluationDate; }
-    public void setEvaluationDate(Date evaluationDate) { this.evaluationDate = evaluationDate; }
 }
