@@ -28,8 +28,8 @@
                   <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
                 <version>7.9.0</version>
-    <scope>test</scope>
-</dependency>
+                <scope>test</scope>
+            </dependency>
 
         <!-- Spring Boot Web -->
         <dependency>
