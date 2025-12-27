@@ -1,10 +1,11 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "sla_requirements")
-public class SLARequirement {
+public class SLARequirement implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,69 +18,37 @@ public class SLARequirement {
 
     private Integer maxDeliveryDays;
 
-    private Double minQualityScore;
+    private Double qualityScoreThreshold;
 
     private Boolean active = true;
 
-    public SLARequirement() {
-    }
+    // Constructors
+    public SLARequirement() {}
 
-    public SLARequirement(String requirementName, String description,
-                          Integer maxDeliveryDays, Double minQualityScore) {
+    public SLARequirement(String requirementName, String description, Integer maxDeliveryDays, Double qualityScoreThreshold) {
         this.requirementName = requirementName;
         this.description = description;
         this.maxDeliveryDays = maxDeliveryDays;
-        this.minQualityScore = minQualityScore;
+        this.qualityScoreThreshold = qualityScoreThreshold;
         this.active = true;
     }
 
     // Getters & Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getRequirementName() { return requirementName; }
+    public void setRequirementName(String requirementName) { this.requirementName = requirementName; }
 
-    public String getRequirementName() {
-        return requirementName;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getDescription() {
-        return description;
-    }
+    public Integer getMaxDeliveryDays() { return maxDeliveryDays; }
+    public void setMaxDeliveryDays(Integer maxDeliveryDays) { this.maxDeliveryDays = maxDeliveryDays; }
 
-    public Integer getMaxDeliveryDays() {
-        return maxDeliveryDays;
-    }
+    public Double getQualityScoreThreshold() { return qualityScoreThreshold; }
+    public void setQualityScoreThreshold(Double qualityScoreThreshold) { this.qualityScoreThreshold = qualityScoreThreshold; }
 
-    public Double getMinQualityScore() {
-        return minQualityScore;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setRequirementName(String requirementName) {
-        this.requirementName = requirementName;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setMaxDeliveryDays(Integer maxDeliveryDays) {
-        this.maxDeliveryDays = maxDeliveryDays;
-    }
-
-    public void setMinQualityScore(Double minQualityScore) {
-        this.minQualityScore = minQualityScore;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

@@ -1,11 +1,12 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "delivery_evaluations")
-public class DeliveryEvaluation {
+public class DeliveryEvaluation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,21 +19,17 @@ public class DeliveryEvaluation {
     private SLARequirement slaRequirement;
 
     private Integer actualDeliveryDays;
-
     private Double qualityScore;
+
+    private Boolean meetsDeliveryTarget;
+    private Boolean meetsQualityTarget;
 
     private LocalDate evaluationDate;
 
-    private Boolean meetsDeliveryTarget;
+    // Constructors
+    public DeliveryEvaluation() {}
 
-    private Boolean meetsQualityTarget;
-
-    public DeliveryEvaluation() {
-    }
-
-    public DeliveryEvaluation(Vendor vendor, SLARequirement slaRequirement,
-                              Integer actualDeliveryDays, Double qualityScore,
-                              LocalDate evaluationDate) {
+    public DeliveryEvaluation(Vendor vendor, SLARequirement slaRequirement, Integer actualDeliveryDays, Double qualityScore, LocalDate evaluationDate) {
         this.vendor = vendor;
         this.slaRequirement = slaRequirement;
         this.actualDeliveryDays = actualDeliveryDays;
@@ -41,68 +38,27 @@ public class DeliveryEvaluation {
     }
 
     // Getters & Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Vendor getVendor() { return vendor; }
+    public void setVendor(Vendor vendor) { this.vendor = vendor; }
 
-    public Vendor getVendor() {
-        return vendor;
-    }
+    public SLARequirement getSlaRequirement() { return slaRequirement; }
+    public void setSlaRequirement(SLARequirement slaRequirement) { this.slaRequirement = slaRequirement; }
 
-    public SLARequirement getSlaRequirement() {
-        return slaRequirement;
-    }
+    public Integer getActualDeliveryDays() { return actualDeliveryDays; }
+    public void setActualDeliveryDays(Integer actualDeliveryDays) { this.actualDeliveryDays = actualDeliveryDays; }
 
-    public Integer getActualDeliveryDays() {
-        return actualDeliveryDays;
-    }
+    public Double getQualityScore() { return qualityScore; }
+    public void setQualityScore(Double qualityScore) { this.qualityScore = qualityScore; }
 
-    public Double getQualityScore() {
-        return qualityScore;
-    }
+    public Boolean getMeetsDeliveryTarget() { return meetsDeliveryTarget; }
+    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) { this.meetsDeliveryTarget = meetsDeliveryTarget; }
 
-    public LocalDate getEvaluationDate() {
-        return evaluationDate;
-    }
+    public Boolean getMeetsQualityTarget() { return meetsQualityTarget; }
+    public void setMeetsQualityTarget(Boolean meetsQualityTarget) { this.meetsQualityTarget = meetsQualityTarget; }
 
-    public Boolean getMeetsDeliveryTarget() {
-        return meetsDeliveryTarget;
-    }
-
-    public Boolean getMeetsQualityTarget() {
-        return meetsQualityTarget;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public void setSlaRequirement(SLARequirement slaRequirement) {
-        this.slaRequirement = slaRequirement;
-    }
-
-    public void setActualDeliveryDays(Integer actualDeliveryDays) {
-        this.actualDeliveryDays = actualDeliveryDays;
-    }
-
-    public void setQualityScore(Double qualityScore) {
-        this.qualityScore = qualityScore;
-    }
-
-    public void setEvaluationDate(LocalDate evaluationDate) {
-        this.evaluationDate = evaluationDate;
-    }
-
-    public void setMeetsDeliveryTarget(Boolean meetsDeliveryTarget) {
-        this.meetsDeliveryTarget = meetsDeliveryTarget;
-    }
-
-    public void setMeetsQualityTarget(Boolean meetsQualityTarget) {
-        this.meetsQualityTarget = meetsQualityTarget;
-    }
+    public LocalDate getEvaluationDate() { return evaluationDate; }
+    public void setEvaluationDate(LocalDate evaluationDate) { this.evaluationDate = evaluationDate; }
 }
