@@ -1,100 +1,65 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.DeliveryEvaluation;
-import com.example.demo.model.Vendor;
-import com.example.demo.model.VendorPerformanceScore;
-import com.example.demo.model.VendorTier;
-import com.example.demo.repository.DeliveryEvaluationRepository;
-import com.example.demo.repository.VendorPerformanceScoreRepository;
-import com.example.demo.repository.VendorRepository;
-import com.example.demo.repository.VendorTierRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.VendorPerformanceScoreService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
 
-    private final VendorPerformanceScoreRepository scoreRepository;
-    private final DeliveryEvaluationRepository evaluationRepository;
-    private final VendorRepository vendorRepository;
-    private final VendorTierRepository vendorTierRepository;
+    private final VendorPerformanceScoreRepository scoreRepo;
+    private final DeliveryEvaluationRepository evaluationRepo;
+    private final VendorRepository vendorRepo;
+    private final VendorTierRepository tierRepo;
 
-    public VendorPerformanceScoreServiceImpl(
-            VendorPerformanceScoreRepository scoreRepository,
-            DeliveryEvaluationRepository evaluationRepository,
-            VendorRepository vendorRepository,
-            VendorTierRepository vendorTierRepository) {
-
-        this.scoreRepository = scoreRepository;
-        this.evaluationRepository = evaluationRepository;
-        this.vendorRepository = vendorRepository;
-        this.vendorTierRepository = vendorTierRepository;
+    public VendorPerformanceScoreServiceImpl(VendorPerformanceScoreRepository scoreRepo,
+                                             DeliveryEvaluationRepository evaluationRepo,
+                                             VendorRepository vendorRepo,
+                                             VendorTierRepository tierRepo) {
+        this.scoreRepo = scoreRepo;
+        this.evaluationRepo = evaluationRepo;
+        this.vendorRepo = vendorRepo;
+        this.tierRepo = tierRepo;
     }
 
     @Override
     public VendorPerformanceScore calculateScore(Long vendorId) {
-
-        Vendor vendor = vendorRepository.findById(vendorId)
+        Vendor vendor = vendorRepo.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations =
-                evaluationRepository.findByVendorId(vendorId);
+        List<DeliveryEvaluation> evaluations = evaluationRepo.findByVendorId(vendorId);
 
-        if (evaluations.isEmpty()) {
-            VendorPerformanceScore emptyScore =
-                    new VendorPerformanceScore(vendor, 0, 0, 0);
-            return scoreRepository.save(emptyScore);
-        }
+        double total = evaluations.size();
+        double onTime = evaluations.stream().filter(DeliveryEvaluation::getMeetsDeliveryTarget).count();
+        double quality = evaluations.stream().filter(DeliveryEvaluation::getMeetsQualityTarget).count();
 
-        long onTimeCount = evaluations.stream()
-                .filter(DeliveryEvaluation::getMeetsDeliveryTarget)
-                .count();
+        double onTimePct = total > 0 ? (onTime / total) * 100 : 0;
+        double qualityPct = total > 0 ? (quality / total) * 100 : 0;
+        double overall = (onTimePct + qualityPct) / 2;
 
-        long qualityCount = evaluations.stream()
-                .filter(DeliveryEvaluation::getMeetsQualityTarget)
-                .count();
+        VendorPerformanceScore score = new VendorPerformanceScore(vendor, onTimePct, qualityPct, overall);
 
-        double onTimePercent =
-                (onTimeCount * 100.0) / evaluations.size();
+        List<VendorTier> tiers = tierRepo.findByActiveTrueOrderByMinScoreThresholdDesc();
+        tiers.stream()
+                .filter(t -> overall >= t.getMinScoreThreshold())
+                .findFirst()
+                .ifPresent(score::setVendorTier);
 
-        double qualityPercent =
-                (qualityCount * 100.0) / evaluations.size();
-
-        double overall =
-                (onTimePercent + qualityPercent) / 2;
-
-        VendorPerformanceScore score =
-                new VendorPerformanceScore(vendor,
-                        onTimePercent,
-                        qualityPercent,
-                        overall);
-
-        List<VendorTier> tiers =
-                vendorTierRepository.findByActiveTrueOrderByMinScoreThresholdDesc();
-
-        for (VendorTier tier : tiers) {
-            if (overall >= tier.getMinScoreThreshold()) {
-                score.setVendorTier(tier);
-                break;
-            }
-        }
-
-        return scoreRepository.save(score);
+        return scoreRepo.save(score);
     }
 
     @Override
     public VendorPerformanceScore getLatestScore(Long vendorId) {
-        List<VendorPerformanceScore> list =
-                scoreRepository.findByVendorOrderByCalculatedAtDesc(vendorId);
-
-        if (list.isEmpty()) {
-            throw new IllegalArgumentException("No performance score found");
-        }
+        List<VendorPerformanceScore> list = scoreRepo.findByVendorOrderByCalculatedAtDesc(vendorId);
+        if (list.isEmpty()) return null;
         return list.get(0);
     }
 
     @Override
     public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
-        return scoreRepository.findByVendorOrderByCalculatedAtDesc(vendorId);
+        return scoreRepo.findByVendorOrderByCalculatedAtDesc(vendorId);
     }
 }
