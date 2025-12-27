@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "vendor_tiers")
 public class VendorTier {
 
     @Id
@@ -13,30 +14,60 @@ public class VendorTier {
     private String tierName;
 
     private Double minScoreThreshold;
+
     private String description;
+
     private Boolean active = true;
 
-    public VendorTier() {}
+    public VendorTier() {
+    }
 
-    public VendorTier(String name, Double score, String desc) {
-        this.tierName = name;
-        this.minScoreThreshold = score;
-        this.description = desc;
+    public VendorTier(String tierName, Double minScoreThreshold, String description) {
+        this.tierName = tierName;
+        this.minScoreThreshold = minScoreThreshold;
+        this.description = description;
         this.active = true;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters & Setters
 
-    public String getTierName() { return tierName; }
-    public void setTierName(String tierName) { this.tierName = tierName; }
+    public Long getId() {
+        return id;
+    }
 
-    public Double getMinScoreThreshold() { return minScoreThreshold; }
-    public void setMinScoreThreshold(Double minScoreThreshold) { this.minScoreThreshold = minScoreThreshold; }
+    public String getTierName() {
+        return tierName;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public Double getMinScoreThreshold() {
+        return minScoreThreshold;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public String getDescription() {
+        return description;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTierName(String tierName) {
+        this.tierName = tierName;
+    }
+
+    public void setMinScoreThreshold(Double minScoreThreshold) {
+        this.minScoreThreshold = minScoreThreshold;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
