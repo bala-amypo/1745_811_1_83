@@ -25,5 +25,12 @@ public class SLARequirementServiceImpl implements SLARequirementService {
         return slaRequirementRepository.save(slaRequirement);
     }
 
-    // Add other service methods as needed
+    @Override
+    public void deactivateRequirement(Long requirementId) {
+        SLARequirement requirement = slaRequirementRepository.findById(requirementId).orElse(null);
+        if (requirement != null) {
+            requirement.setActive(false);
+            slaRequirementRepository.save(requirement);
+        }
+    }
 }

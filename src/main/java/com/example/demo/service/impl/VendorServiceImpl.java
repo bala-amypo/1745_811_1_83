@@ -25,5 +25,12 @@ public class VendorServiceImpl implements VendorService {
         return vendorRepository.save(vendor);
     }
 
-
+    @Override
+    public void deactivateVendor(Long vendorId) {
+        Vendor vendor = vendorRepository.findById(vendorId).orElse(null);
+        if (vendor != null) {
+            vendor.setActive(false);
+            vendorRepository.save(vendor);
+        }
+    }
 }

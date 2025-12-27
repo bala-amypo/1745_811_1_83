@@ -33,5 +33,14 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
         return deliveryEvaluationRepository.save(evaluation);
     }
 
-    // Add other service methods as needed
+    @Override
+    public List<DeliveryEvaluation> getEvaluationsForRequirement(Long requirementId) {
+        // Implement logic based on SLARequirement ID
+        return deliveryEvaluationRepository.findByRequirementId(requirementId);
+    }
+
+    @Override
+    public void deleteEvaluation(Long evaluationId) {
+        deliveryEvaluationRepository.deleteById(evaluationId);
+    }
 }
