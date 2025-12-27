@@ -1,11 +1,3 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.model.Vendor;
-import com.example.demo.repository.VendorRepository;
-import com.example.demo.service.VendorService;
-
-import java.util.List;
-
 public class VendorServiceImpl implements VendorService {
 
     private final VendorRepository vendorRepository;
@@ -17,32 +9,27 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public Vendor createVendor(Vendor vendor) {
         if (vendorRepository.existsByName(vendor.getName())) {
-            throw new IllegalArgumentException("Vendor name must be unique");
+            throw new IllegalArgumentException("unique");
         }
-        vendor.setActive(true);
         return vendorRepository.save(vendor);
     }
 
     @Override
-    public Vendor updateVendor(Long id, Vendor vendor) {
+    public Vendor updateVendor(Long id, Vendor update) {
         Vendor existing = vendorRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
+                .orElseThrow(() -> new IllegalArgumentException("not found"));
 
-        if (vendor.getName() != null &&
-                !vendor.getName().equals(existing.getName()) &&
-                vendorRepository.existsByName(vendor.getName())) {
-            throw new IllegalArgumentException("Vendor name must be unique");
+        if (update.getName() != null &&
+            !update.getName().equals(existing.getName()) &&
+            vendorRepository.existsByName(update.getName())) {
+            throw new IllegalArgumentException("unique");
         }
 
-        if (vendor.getName() != null) {
-            existing.setName(vendor.getName());
-        }
-        if (vendor.getContactEmail() != null) {
-            existing.setContactEmail(vendor.getContactEmail());
-        }
-        if (vendor.getContactPhone() != null) {
-            existing.setContactPhone(vendor.getContactPhone());
-        }
+        if (update.getContactEmail() != null)
+            existing.setContactEmail(update.getContactEmail());
+
+        if (update.getContactPhone() != null)
+            existing.setContactPhone(update.getContactPhone());
 
         return vendorRepository.save(existing);
     }
@@ -50,7 +37,7 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public Vendor getVendorById(Long id) {
         return vendorRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
+                .orElseThrow(() -> new IllegalArgumentException("not found"));
     }
 
     @Override
@@ -60,8 +47,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public void deactivateVendor(Long id) {
-        Vendor vendor = vendorRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
+        Vendor vendor = getVendorById(id);
         vendor.setActive(false);
         vendorRepository.save(vendor);
     }
