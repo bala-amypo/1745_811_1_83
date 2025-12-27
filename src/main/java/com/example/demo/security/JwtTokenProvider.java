@@ -1,39 +1,52 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.JwtException;
+
 import java.util.Date;
 
 public class JwtTokenProvider {
 
-    private final String secret;
-    private final long validity;
+    private final String secretKey;
+    private final long validityInMs;
 
-    public JwtTokenProvider(String secret, long validity) {
-        this.secret = secret;
-        this.validity = validity;
+    public JwtTokenProvider(String secretKey, long validityInMs) {
+        this.secretKey = secretKey;
+        this.validityInMs = validityInMs;
     }
 
     public String createToken(String email, String role, Long userId) {
+
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put("email", email);
+        claims.put("role", role);
+        claims.put("userId", userId);
+
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + validityInMs);
+
         return Jwts.builder()
-                .setSubject(email)
-                .claim("email", email)
-                .claim("role", role)
-                .claim("userId", userId)
-                .setExpiration(new Date(System.currentTimeMillis() + validity))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiry)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(secret)
-                .parseClaimsJws(token).getBody();
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public boolean validateToken(String token) {
         try {
-            getClaims(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException ex) {
             return false;
         }
     }
