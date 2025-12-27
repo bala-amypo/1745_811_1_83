@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Vendor;
+import com.example.demo.model.Vendor;
 import com.example.demo.service.VendorService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,30 +17,27 @@ public class VendorController {
     }
 
     @PostMapping
-    public Vendor createVendor(@RequestBody Vendor vendor) {
+    public Vendor create(@RequestBody Vendor vendor) {
         return vendorService.createVendor(vendor);
     }
 
     @PutMapping("/{id}")
-    public Vendor updateVendor(
-            @PathVariable Long id,
-            @RequestBody Vendor vendor) {
-
+    public Vendor update(@PathVariable Long id, @RequestBody Vendor vendor) {
         return vendorService.updateVendor(id, vendor);
     }
 
     @GetMapping("/{id}")
-    public Vendor getVendor(@PathVariable Long id) {
+    public Vendor get(@PathVariable Long id) {
         return vendorService.getVendorById(id);
     }
 
     @GetMapping
-    public List<Vendor> getAllVendors() {
+    public List<Vendor> getAll() {
         return vendorService.getAllVendors();
     }
 
     @PutMapping("/{id}/deactivate")
-    public void deactivateVendor(@PathVariable Long id) {
+    public void deactivate(@PathVariable Long id) {
         vendorService.deactivateVendor(id);
     }
 }

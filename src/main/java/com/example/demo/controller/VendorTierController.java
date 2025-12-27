@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.VendorTier;
+import com.example.demo.model.VendorTier;
 import com.example.demo.service.VendorTierService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,37 +10,24 @@ import java.util.List;
 @RequestMapping("/api/tiers")
 public class VendorTierController {
 
-    private final VendorTierService vendorTierService;
+    private final VendorTierService service;
 
-    public VendorTierController(VendorTierService vendorTierService) {
-        this.vendorTierService = vendorTierService;
+    public VendorTierController(VendorTierService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public VendorTier createTier(@RequestBody VendorTier tier) {
-        return vendorTierService.createTier(tier);
-    }
-
-    @PutMapping("/{id}")
-    public VendorTier updateTier(
-            @PathVariable Long id,
-            @RequestBody VendorTier tier) {
-
-        return vendorTierService.updateTier(id, tier);
-    }
-
-    @GetMapping("/{id}")
-    public VendorTier getTier(@PathVariable Long id) {
-        return vendorTierService.getTierById(id);
-    }
-
-    @GetMapping
-    public List<VendorTier> getAllTiers() {
-        return vendorTierService.getAllTiers();
+    public VendorTier create(@RequestBody VendorTier tier) {
+        return service.createTier(tier);
     }
 
     @PutMapping("/{id}/deactivate")
-    public void deactivateTier(@PathVariable Long id) {
-        vendorTierService.deactivateTier(id);
+    public void deactivate(@PathVariable Long id) {
+        service.deactivateTier(id);
+    }
+
+    @GetMapping
+    public List<VendorTier> getAll() {
+        return service.getAllTiers();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.DeliveryEvaluation;
+import com.example.demo.model.DeliveryEvaluation;
 import com.example.demo.service.DeliveryEvaluationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,35 +10,24 @@ import java.util.List;
 @RequestMapping("/api/evaluations")
 public class DeliveryEvaluationController {
 
-    private final DeliveryEvaluationService deliveryEvaluationService;
+    private final DeliveryEvaluationService service;
 
-    public DeliveryEvaluationController(DeliveryEvaluationService deliveryEvaluationService) {
-        this.deliveryEvaluationService = deliveryEvaluationService;
+    public DeliveryEvaluationController(DeliveryEvaluationService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public DeliveryEvaluation createEvaluation(
-            @RequestBody DeliveryEvaluation evaluation) {
-
-        return deliveryEvaluationService.createEvaluation(evaluation);
-    }
-
-    @GetMapping("/{id}")
-    public DeliveryEvaluation getEvaluationById(@PathVariable Long id) {
-        return deliveryEvaluationService.getEvaluationById(id);
+    public DeliveryEvaluation create(@RequestBody DeliveryEvaluation eval) {
+        return service.createEvaluation(eval);
     }
 
     @GetMapping("/vendor/{vendorId}")
-    public List<DeliveryEvaluation> getByVendor(
-            @PathVariable Long vendorId) {
-
-        return deliveryEvaluationService.getEvaluationsForVendor(vendorId);
+    public List<DeliveryEvaluation> byVendor(@PathVariable Long vendorId) {
+        return service.getEvaluationsForVendor(vendorId);
     }
 
     @GetMapping("/requirement/{reqId}")
-    public List<DeliveryEvaluation> getByRequirement(
-            @PathVariable Long reqId) {
-
-        return deliveryEvaluationService.getEvaluationsForRequirement(reqId);
+    public List<DeliveryEvaluation> byRequirement(@PathVariable Long reqId) {
+        return service.getEvaluationsForRequirement(reqId);
     }
 }

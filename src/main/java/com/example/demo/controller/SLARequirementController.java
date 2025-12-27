@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.SLARequirement;
+import com.example.demo.model.SLARequirement;
 import com.example.demo.service.SLARequirementService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,37 +10,34 @@ import java.util.List;
 @RequestMapping("/api/sla-requirements")
 public class SLARequirementController {
 
-    private final SLARequirementService slaRequirementService;
+    private final SLARequirementService service;
 
-    public SLARequirementController(SLARequirementService slaRequirementService) {
-        this.slaRequirementService = slaRequirementService;
+    public SLARequirementController(SLARequirementService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public SLARequirement createRequirement(@RequestBody SLARequirement req) {
-        return slaRequirementService.createRequirement(req);
+    public SLARequirement create(@RequestBody SLARequirement req) {
+        return service.createRequirement(req);
     }
 
     @PutMapping("/{id}")
-    public SLARequirement updateRequirement(
-            @PathVariable Long id,
-            @RequestBody SLARequirement req) {
-
-        return slaRequirementService.updateRequirement(id, req);
+    public SLARequirement update(@PathVariable Long id, @RequestBody SLARequirement req) {
+        return service.updateRequirement(id, req);
     }
 
     @GetMapping("/{id}")
-    public SLARequirement getRequirement(@PathVariable Long id) {
-        return slaRequirementService.getRequirementById(id);
+    public SLARequirement get(@PathVariable Long id) {
+        return service.getRequirementById(id);
     }
 
     @GetMapping
-    public List<SLARequirement> getAllRequirements() {
-        return slaRequirementService.getAllRequirements();
+    public List<SLARequirement> getAll() {
+        return service.getAllRequirements();
     }
 
     @PutMapping("/{id}/deactivate")
-    public void deactivateRequirement(@PathVariable Long id) {
-        slaRequirementService.deactivateRequirement(id);
+    public void deactivate(@PathVariable Long id) {
+        service.deactivateRequirement(id);
     }
 }
