@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.DeliveryEvaluation;
 import com.example.demo.service.DeliveryEvaluationService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,12 +21,12 @@ public class DeliveryEvaluationController {
     }
 
     @GetMapping("/vendor/{vendorId}")
-    public List<DeliveryEvaluation> byVendor(@PathVariable Long vendorId) {
+    public List<DeliveryEvaluation> getByVendor(@PathVariable Long vendorId) {
         return service.getEvaluationsForVendor(vendorId);
     }
 
-    @GetMapping("/requirement/{reqId}")
-    public List<DeliveryEvaluation> byRequirement(@PathVariable Long reqId) {
-        return service.getEvaluationsForRequirement(reqId);
+    @GetMapping("/sla/{slaId}")
+    public List<DeliveryEvaluation> getBySLA(@PathVariable Long slaId) {
+        return service.getEvaluationsForRequirement(slaId);
     }
 }
