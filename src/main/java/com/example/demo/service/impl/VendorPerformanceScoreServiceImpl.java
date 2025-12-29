@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service  // <-- Important for Spring to detect this as a bean
+@Service
 public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
 
     private final VendorPerformanceScoreRepository vendorPerformanceScoreRepository;
@@ -26,7 +26,6 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
             DeliveryEvaluationRepository deliveryEvaluationRepository,
             VendorRepository vendorRepository,
             VendorTierRepository vendorTierRepository) {
-
         this.vendorPerformanceScoreRepository = vendorPerformanceScoreRepository;
         this.deliveryEvaluationRepository = deliveryEvaluationRepository;
         this.vendorRepository = vendorRepository;
@@ -35,7 +34,6 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
 
     @Override
     public VendorPerformanceScore calculateScore(Long vendorId) {
-
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
@@ -64,7 +62,6 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
                 qualityPercentage,
                 overallScore
         );
-
         score.setCalculatedAt(LocalDateTime.now());
 
         return vendorPerformanceScoreRepository.save(score);
@@ -73,13 +70,13 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
     @Override
     public VendorPerformanceScore getLatestScore(Long vendorId) {
         List<VendorPerformanceScore> list =
-                vendorPerformanceScoreRepository.findByVendorOrderByCalculatedAtDesc(vendorId);
+                vendorPerformanceScoreRepository.findByVendorIdOrderByCalculatedAtDesc(vendorId);
 
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
     public List<VendorPerformanceScore> getScoresForVendor(Long vendorId) {
-        return vendorPerformanceScoreRepository.findByVendorOrderByCalculatedAtDesc(vendorId);
+        return vendorPerformanceScoreRepository.findByVendorIdOrderByCalculatedAtDesc(vendorId);
     }
 }
