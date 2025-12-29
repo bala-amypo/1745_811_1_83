@@ -1,54 +1,93 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "sla_requirements")
-public class SLARequirement implements Serializable {
+@Table(
+        name = "sla_requirements",
+        uniqueConstraints = @UniqueConstraint(columnNames = "requirementName")
+)
+public class SLARequirement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String requirementName;
 
     private String description;
 
+    @Column(nullable = false)
     private Integer maxDeliveryDays;
 
-    private Double qualityScoreThreshold;
+    @Column(nullable = false)
+    private Double minQualityScore;
 
+    @Column(nullable = false)
     private Boolean active = true;
 
-    // Constructors
-    public SLARequirement() {}
+    // 🔹 Constructors
+    public SLARequirement() {
+    }
 
-    public SLARequirement(String requirementName, String description, Integer maxDeliveryDays, Double qualityScoreThreshold) {
+    public SLARequirement(String requirementName, String description,
+                          Integer maxDeliveryDays, Double minQualityScore) {
         this.requirementName = requirementName;
         this.description = description;
         this.maxDeliveryDays = maxDeliveryDays;
-        this.qualityScoreThreshold = qualityScoreThreshold;
+        this.minQualityScore = minQualityScore;
         this.active = true;
     }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // 🔹 Getters & Setters (CRITICAL)
 
-    public String getRequirementName() { return requirementName; }
-    public void setRequirementName(String requirementName) { this.requirementName = requirementName; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Integer getMaxDeliveryDays() { return maxDeliveryDays; }
-    public void setMaxDeliveryDays(Integer maxDeliveryDays) { this.maxDeliveryDays = maxDeliveryDays; }
+    public String getRequirementName() {
+        return requirementName;
+    }
 
-    public Double getQualityScoreThreshold() { return qualityScoreThreshold; }
-    public void setQualityScoreThreshold(Double qualityScoreThreshold) { this.qualityScoreThreshold = qualityScoreThreshold; }
+    public void setRequirementName(String requirementName) {
+        this.requirementName = requirementName;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getMaxDeliveryDays() {
+        return maxDeliveryDays;
+    }
+
+    public void setMaxDeliveryDays(Integer maxDeliveryDays) {
+        this.maxDeliveryDays = maxDeliveryDays;
+    }
+
+    // ✅ THIS WAS MISSING — CAUSING YOUR ERROR
+    public Double getMinQualityScore() {
+        return minQualityScore;
+    }
+
+    public void setMinQualityScore(Double minQualityScore) {
+        this.minQualityScore = minQualityScore;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

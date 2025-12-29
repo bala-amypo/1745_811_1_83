@@ -4,16 +4,44 @@ import com.example.demo.model.Vendor;
 import com.example.demo.repository.VendorRepository;
 import com.example.demo.service.VendorService;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
 public class VendorServiceImpl implements VendorService {
 
-    @Autowired
-    private VendorRepository vendorRepository;
+    private final VendorRepository vendorRepository;
+
+    public VendorServiceImpl(VendorRepository vendorRepository) {
+        this.vendorRepository = vendorRepository;
+    }
+
+    @Override
+    public Vendor createVendor(Vendor vendor) {
+        if (vendorRepository.existsByName(vendor.getName())) {
+            throw new IllegalArgumentException("unique");
+        }
+        vendor.setActive(true);
+        return vendorRepository.save(vendor);
+    }
+
+    @Override
+    public Vendor updateVendor(Long id, Vendor vendor) {
+        Vendor existing = getVendorById(id);
+
+        if (vendor.getContactEmail() != null) {
+            existing.setContactEmail(vendor.getContactEmail());
+        }
+        if (vendor.getContactPhone() != null) {
+            existing.setContactPhone(vendor.getContactPhone());
+        }
+
+        return vendorRepository.save(existing);
+    }
+
+    @Override
+    public Vendor getVendorById(Long id) {
+        return vendorRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found"));
+    }
 
     @Override
     public List<Vendor> getAllVendors() {
@@ -21,16 +49,9 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public Vendor saveVendor(Vendor vendor) {
-        return vendorRepository.save(vendor);
-    }
-
-    @Override
-    public void deactivateVendor(Long vendorId) {
-        Vendor vendor = vendorRepository.findById(vendorId).orElse(null);
-        if (vendor != null) {
-            vendor.setActive(false);
-            vendorRepository.save(vendor);
-        }
+    public void deactivateVendor(Long id) {
+        Vendor vendor = getVendorById(id);
+        vendor.setActive(false);
+        vendorRepository.save(vendor);
     }
 }
