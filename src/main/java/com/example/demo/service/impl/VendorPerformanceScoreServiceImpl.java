@@ -8,10 +8,12 @@ import com.example.demo.repository.VendorPerformanceScoreRepository;
 import com.example.demo.repository.VendorRepository;
 import com.example.demo.repository.VendorTierRepository;
 import com.example.demo.service.VendorPerformanceScoreService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service  // <-- Important for Spring to detect this as a bean
 public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScoreService {
 
     private final VendorPerformanceScoreRepository vendorPerformanceScoreRepository;
@@ -35,10 +37,9 @@ public class VendorPerformanceScoreServiceImpl implements VendorPerformanceScore
     public VendorPerformanceScore calculateScore(Long vendorId) {
 
         Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new IllegalArgumentException("not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
-        List<DeliveryEvaluation> evaluations =
-                deliveryEvaluationRepository.findByVendorId(vendorId);
+        List<DeliveryEvaluation> evaluations = deliveryEvaluationRepository.findByVendorId(vendorId);
 
         int total = evaluations.size();
         double onTime = 0;

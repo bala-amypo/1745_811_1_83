@@ -1,11 +1,17 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.DeliveryEvaluation;
+import com.example.demo.model.SLARequirement;
+import com.example.demo.model.Vendor;
+import com.example.demo.repository.DeliveryEvaluationRepository;
+import com.example.demo.repository.SLARequirementRepository;
+import com.example.demo.repository.VendorRepository;
 import com.example.demo.service.DeliveryEvaluationService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service  // <-- This is critical for Spring to detect this class as a bean
 public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService {
 
     private final DeliveryEvaluationRepository deliveryEvaluationRepository;
@@ -16,7 +22,6 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
             DeliveryEvaluationRepository deliveryEvaluationRepository,
             VendorRepository vendorRepository,
             SLARequirementRepository slaRequirementRepository) {
-
         this.deliveryEvaluationRepository = deliveryEvaluationRepository;
         this.vendorRepository = vendorRepository;
         this.slaRequirementRepository = slaRequirementRepository;
@@ -26,22 +31,22 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
     public DeliveryEvaluation createEvaluation(DeliveryEvaluation evaluation) {
 
         Vendor vendor = vendorRepository.findById(evaluation.getVendor().getId())
-                .orElseThrow(() -> new IllegalArgumentException("not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Vendor not found"));
 
         SLARequirement sla = slaRequirementRepository.findById(
                         evaluation.getSlaRequirement().getId())
-                .orElseThrow(() -> new IllegalArgumentException("not found"));
+                .orElseThrow(() -> new IllegalArgumentException("SLA requirement not found"));
 
         if (!vendor.getActive()) {
-            throw new IllegalStateException("active vendors");
+            throw new IllegalStateException("Vendor is not active");
         }
 
         if (evaluation.getActualDeliveryDays() < 0) {
-            throw new IllegalArgumentException(">= 0");
+            throw new IllegalArgumentException("Actual delivery days must be >= 0");
         }
 
         if (evaluation.getQualityScore() < 0 || evaluation.getQualityScore() > 100) {
-            throw new IllegalArgumentException("between 0 and 100");
+            throw new IllegalArgumentException("Quality score must be between 0 and 100");
         }
 
         evaluation.setVendor(vendor);
@@ -59,7 +64,7 @@ public class DeliveryEvaluationServiceImpl implements DeliveryEvaluationService 
     @Override
     public DeliveryEvaluation getEvaluationById(Long id) {
         return deliveryEvaluationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Evaluation not found"));
     }
 
     @Override
