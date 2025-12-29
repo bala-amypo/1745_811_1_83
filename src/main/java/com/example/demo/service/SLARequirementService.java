@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface SLARequirementService {
 
-    SLARequirement createRequirement(SLARequirement requirement);
+    SLARequirement createRequirement(SLARequirement req);
 
-    SLARequirement updateRequirement(Long id, SLARequirement requirement);
+    SLARequirement updateRequirement(Long id, SLARequirement req);
 
     SLARequirement getRequirementById(Long id);
 
